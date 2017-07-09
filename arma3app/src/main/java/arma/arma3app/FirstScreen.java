@@ -31,12 +31,10 @@ public class FirstScreen extends GridPane {
 			app.moveToAmunicjaOkno();
 		});
 
-		Button btnDodajBron = new Button("Dodaj broń");
-		add(btnDodajBron, 0, 2);
-		btnDodajBron.setMaxWidth(150);
-		btnDodajBron.setOnAction(event -> {
-			app.moveToDodajBron();
-			;
+		Button btnKonf = new Button("Konfiguracja");
+		add(btnKonf, 0, 3);
+		btnKonf.setOnAction(event -> {
+			app.moveToKonfiguracjaOkno();
 		});
 
 	}

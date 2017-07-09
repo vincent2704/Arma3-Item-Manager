@@ -1,6 +1,9 @@
 package arma.arma3app;
 
+import java.io.File;
+
 import arma.itemdb.DatabaseHandler;
+import arma.misc.Konfiguracja;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -19,7 +22,8 @@ public class App extends Application
 	BronieOkno bronieOkno;
 	DodajBronOkno dodajBronOkno;
 	AmunicjaOkno amunicjaOkno;
-	Scene scFirstScreen, scBronieOkno, scDodajBron, scAmunicjaOkno;
+	KonfiguracjaOkno konfiguracjaOkno;
+	Scene scFirstScreen, scBronieOkno, scDodajBron, scAmunicjaOkno, scKonfiguracjaOkno;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -27,25 +31,30 @@ public class App extends Application
 		primaryStage.setTitle("Arma 3 Item Manager");
 		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("sniper_rifle-512.png")));
 
-		DatabaseHandler.createConnection();
+
 
 		firstScreen = new FirstScreen(this);
 		scFirstScreen = new Scene(firstScreen, 300, 300);
 		primaryStage.setScene(scFirstScreen);
 		primaryStage.show();
+
 		primaryStage.setOnCloseRequest(event -> {
 			DatabaseHandler.closeConnection();
 		});
 
+		Konfiguracja k = Konfiguracja.readConfig();
+
+		if (k == null) {
+			Konfiguracja.brakKonfiguracji();
+			moveToKonfiguracjaOkno();
+		}
+		else {
+
+			DatabaseHandler.createConnection(k);
+		}
 	}
 
-    public static void main( String[] args )
-    {
-		launch(args);
-    }
-
-
-	public void moveToBronieOkno() {
+    public void moveToBronieOkno() {
 		bronieOkno = new BronieOkno(this);
 		scBronieOkno = new Scene(bronieOkno, 350, 600);
 		stage.setScene(scBronieOkno);
@@ -64,8 +73,30 @@ public class App extends Application
 		stage.setScene(scAmunicjaOkno);
 	}
 
+	public void moveToKonfiguracjaOkno() {
+		konfiguracjaOkno = new KonfiguracjaOkno(this);
+		scKonfiguracjaOkno = new Scene(konfiguracjaOkno, 300, 400);
+		stage.setScene(scKonfiguracjaOkno);
+	}
+
 	public void moveToGlowny() {
 		stage.setScene(scFirstScreen);
+	}
+
+	public static void main( String[] args )
+	{
+		launch(args);
+
+		File config = null;
+
+		try {
+			config = new File("app.conf");
+			config.createNewFile();
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			System.out.println("Coś poszło nie tak z tworzeniem pliku!");
+		}
+	
 	}
 
 }

@@ -1,6 +1,7 @@
 package arma.arma3app;
 
 import arma.itemdao.BronieDao;
+import arma.misc.DuplicateEntryException;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -20,7 +21,7 @@ public class DodajBronOkno extends GridPane {
 	private TextField tfIlosc;
 	private TextField tfKaliber;
 
-	private Alert zlyFormat() {
+	private Alert zlyFormatBron() {
 		diaZlyFormat.setTitle("Zły format!");
 		diaZlyFormat.setHeaderText("Niepoprawna forma zapisu!");
 		diaZlyFormat.setContentText(
@@ -84,7 +85,7 @@ public class DodajBronOkno extends GridPane {
 
 		add(btnBack, 0, 3);
 		btnBack.setOnAction(event -> {
-			app.moveToGlowny();
+			app.moveToBronieOkno();
 		});
 
 		add(btnRejestruj, 1, 3);
@@ -95,7 +96,10 @@ public class DodajBronOkno extends GridPane {
 			BronieDao.registerBron(tfModel.getText(), Integer.parseInt(tfIlosc.getText()),
 						Double.parseDouble(tfKaliber.getText()));
 				} catch (NumberFormatException exc) {
-					zlyFormat();
+					zlyFormatBron();
+					return;
+				} catch (DuplicateEntryException exc) {
+					bronIstnieje();
 					return;
 				}
 

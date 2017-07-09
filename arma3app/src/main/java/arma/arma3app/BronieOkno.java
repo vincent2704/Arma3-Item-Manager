@@ -6,11 +6,13 @@ import arma.itemdao.BronieDao;
 import arma.itemdb.Bronie;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.HPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
 public class BronieOkno extends BorderPane {
@@ -34,6 +36,7 @@ public class BronieOkno extends BorderPane {
 		listaBroni = BronieDao.getListaBroni();
 
 		setCenter(createTabelaBroni());
+		setTop(gp());
 
 	}
 
@@ -65,6 +68,22 @@ public class BronieOkno extends BorderPane {
 		hbox.getChildren().add(btnMinus);
 
 		return hbox;
+	}
+
+	private GridPane gp() {
+		GridPane gp = new GridPane();
+		Button btnDodajBron = new Button("Dodaj broń");
+
+		btnDodajBron.setMaxWidth(USE_COMPUTED_SIZE);
+		btnDodajBron.setOnAction(event -> {
+			app.moveToDodajBron();
+			;
+		});
+
+		gp.add(btnDodajBron, 1, 0);
+		gp.setHalignment(btnDodajBron, HPos.RIGHT);
+
+		return gp;
 	}
 
 }

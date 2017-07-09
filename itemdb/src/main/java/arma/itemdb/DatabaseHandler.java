@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import arma.misc.Konfiguracja;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
@@ -14,17 +15,20 @@ public class DatabaseHandler
 	private static EntityManagerFactory emf;
 
 
-	public static void createConnection() {
+	public static void createConnection(Konfiguracja conf) {
+		closeConnection();
 		try {
-
-			emf = Persistence.createEntityManagerFactory("arma3");
+			emf = Persistence.createEntityManagerFactory("arma3", conf.getProperties());
 		// przejmuje ustawienia z persistence.xml
 			em = emf.createEntityManager();
 
 		} catch (Exception exc) {
 			alertConnection();
+			return;
 		}
+		connSuccess();
 	}
+
 
 	public static EntityManager getEntityManager() {
 		return em;
@@ -49,6 +53,17 @@ public class DatabaseHandler
 
 		return alertCon;
 
+	}
+
+	public static Alert connSuccess() {
+		Alert alertCon = new Alert(AlertType.INFORMATION);
+		alertCon.setTitle("Połączenie udane");
+		alertCon.setHeaderText("Nastąpiło połączenie z bazą danych.");
+		alertCon.setContentText("Program będzie działał w oparciu o bazę danych o podanych parametrach.");
+
+		alertCon.showAndWait();
+
+		return alertCon;
 	}
 
 }

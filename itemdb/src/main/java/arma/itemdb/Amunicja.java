@@ -15,7 +15,7 @@ public class Amunicja implements Serializable {
 	@Id
 	@GeneratedValue
 	private int id;
-	@Column(name = "nazwa_amunicji")
+	@Column(name = "nazwa_amunicji", unique = true)
 	private String nazwa_amunicji;
 	@Column(name = "kaliber")
 	private double kaliber;

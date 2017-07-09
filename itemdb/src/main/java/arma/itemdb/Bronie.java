@@ -15,7 +15,7 @@ public class Bronie implements Serializable {
 	@Id
 	@GeneratedValue
 	private int id;
-	@Column(name = "model_broni")
+	@Column(name = "model_broni", unique = true)
 	private String model_broni;
 	@Column(name = "ilosc")
 	private int ilosc;
