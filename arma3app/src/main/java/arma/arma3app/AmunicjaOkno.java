@@ -2,22 +2,16 @@ package arma.arma3app;
 
 import java.util.List;
 
+import arma.arma3app.cellfactory.DoubleCellFactory;
 import arma.itemdao.AmunicjaDao;
 import arma.itemdb.Amunicja;
 import arma.misc.DuplicateEntryException;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
+import javafx.collections.*;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 import javafx.util.Callback;
 
 public class AmunicjaOkno extends BorderPane {
@@ -72,7 +66,7 @@ public class AmunicjaOkno extends BorderPane {
 		colIlosc.setCellValueFactory(new PropertyValueFactory<>("ilosc"));
 		// modyfikacja zeby na poczatku 0 nie wyswietlala
 		TableColumn<Amunicja, Double> colKaliber = new TableColumn<Amunicja, Double>("Kaliber");
-		// colKaliber.setCellFactory(new DoubleCellFactory<Amunicja>());
+      colKaliber.setCellFactory(new DoubleCellFactory<Amunicja>());
 		colKaliber.setCellValueFactory(new PropertyValueFactory<>("kaliber"));
 
 		// kolumna implementujaca guziki do edycji poszczegolnego wiersza w bazie

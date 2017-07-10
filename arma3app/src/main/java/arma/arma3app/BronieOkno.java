@@ -2,18 +2,14 @@ package arma.arma3app;
 
 import java.util.List;
 
+import arma.arma3app.cellfactory.DoubleCellFactory;
 import arma.itemdao.BronieDao;
 import arma.itemdb.Bronie;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.collections.*;
 import javafx.geometry.HPos;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 
 public class BronieOkno extends BorderPane {
 
@@ -48,6 +44,7 @@ public class BronieOkno extends BorderPane {
 		TableColumn<Bronie, Integer> colIlosc = new TableColumn<Bronie, Integer>("Ilość");
 		colIlosc.setCellValueFactory(new PropertyValueFactory<>("ilosc"));
 		TableColumn<Bronie, Double> colKaliber = new TableColumn<Bronie, Double>("Kaliber");
+      colKaliber.setCellFactory(new DoubleCellFactory<Bronie>());
 		colKaliber.setCellValueFactory(new PropertyValueFactory<>("kaliber"));
 
 		tabela.getColumns().addAll(colModelBroni, colIlosc, colKaliber);
