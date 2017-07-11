@@ -122,6 +122,7 @@ public class AmunicjaOkno extends BorderPane {
 	private TableView<Amunicja> createTabelaAmunicja() {
 
 		TableView<Amunicja> tabela = new TableView<Amunicja>();
+		// tabela.setFixedCellSize(35);
 
 		TableColumn<Amunicja, String> colNazwa = new TableColumn<Amunicja, String>("Nazwa");
 		// tworzy wartość do każdej komórki, parametr new PropertyValueFactory, argument to nazwa pola

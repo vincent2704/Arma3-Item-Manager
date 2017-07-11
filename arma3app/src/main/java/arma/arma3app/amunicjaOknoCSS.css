@@ -7,8 +7,12 @@
    -fx-base: transparent;
 }
 
+.label{
+	-fx-font-weight: bold;
+}
+
 .table-view .table-cell{
-    -fx-background-color: transparent;
+    -fx-background-color: rgba(169,169,169, 0.5);
 }
 
 .button{
@@ -18,4 +22,25 @@
 
 .scroll-bar{
 	-fx-background-color: transparent;
+}
+
+.table-row-cell:selected{
+	-fx-background-color: #BDB76B;
+	/* border poziomy */
+	-fx-border-color: rgba(169,169,169, 0.5);
+	/* border pionowy */
+	-fx-table-cell-border-color:  transparent;
+}
+/* parzyste wiersze */
+.table-row-cell:even{
+	-fx-background-color: rgba(189, 183, 107, 0.5);
+	-fx-table-cell-border-color:transparent;
+}
+
+.table-cell .text-field{
+	-fx-background-color: #BDB76B;
+}
+
+.table-cell .text-field:focused{
+	 	-fx-background-color:  	#B8860B;
 }

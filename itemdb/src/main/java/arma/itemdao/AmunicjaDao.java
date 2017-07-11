@@ -55,5 +55,18 @@ public class AmunicjaDao {
 
 	}
 
+	public static void updateAmmo(Amunicja ammo) {
+
+		EntityManager em = DatabaseHandler.getEntityManager();
+
+		Amunicja a = em.find(Amunicja.class, ammo.getId());
+
+		em.getTransaction().begin();
+		a.setIlosc(ammo.getIlosc());
+		a.setKaliber(ammo.getKaliber());
+		a.setNazwa_amunicji(ammo.getNazwa_amunicji());
+		em.getTransaction().commit();
+
+	}
 
 }
