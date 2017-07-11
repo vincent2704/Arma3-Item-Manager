@@ -109,7 +109,7 @@ public class DodajBronOkno extends GridPane {
 			}
 
 			else {
-				System.out.println("zjebales!");
+				System.out.println("Nieokreslony_blad_rejestracji\nPrawdopodobnie blad w danych wejsciowych.");
 			}
 		});
 	

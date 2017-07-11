@@ -2,14 +2,17 @@ package arma.arma3app;
 
 import java.util.List;
 
+import arma.arma3app.cellfactory.ActionsCellFactory;
 import arma.itemdao.AmunicjaDao;
 import arma.itemdb.Amunicja;
 import arma.misc.DuplicateEntryException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -17,7 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.GridPane;
 import javafx.util.Callback;
 
 public class AmunicjaOkno extends BorderPane {
@@ -30,12 +33,18 @@ public class AmunicjaOkno extends BorderPane {
 	public AmunicjaOkno(App app) {
 		this.app = app;
 		updateTable();
-		setCenter(createTabelaAmunicja());
 
-		setBottom(getHBox());
+		Button btnBack = new Button("Powrót");
+		btnBack.setOnAction(event -> {
+			app.moveToGlowny();
+		});
+
+		setBottom(btnBack);
+		setCenter(createTabelaAmunicja());
+		setTop(gridPane());
 	}
 
-	private void updateTable() {
+	public void updateTable() {
 		listaAmunicja = AmunicjaDao.getAmunicja();
 		if (listObAmunicja != null) {
 			listObAmunicja.clear();
@@ -61,86 +70,28 @@ public class AmunicjaOkno extends BorderPane {
 		alert.showAndWait();
 	}
 
-	private TableView<Amunicja> createTabelaAmunicja() {
+	private GridPane gridPane() {
+		GridPane gp = new GridPane();
+		gp.setPadding(new Insets(10, 10, 10, 10));
 
-		TableView<Amunicja> tabela = new TableView<Amunicja>();
-
-		TableColumn<Amunicja, String> colNazwa = new TableColumn<Amunicja, String>("Nazwa");
-		// tworzy wartość do każdej komórki, parametr new PropertyValueFactory, argument to nazwa pola
-		colNazwa.setCellValueFactory(new PropertyValueFactory<>("nazwa_amunicji"));
-		TableColumn<Amunicja, Integer> colIlosc = new TableColumn<Amunicja, Integer>("Ilość");
-		colIlosc.setCellValueFactory(new PropertyValueFactory<>("ilosc"));
-		// modyfikacja zeby na poczatku 0 nie wyswietlala
-		TableColumn<Amunicja, Double> colKaliber = new TableColumn<Amunicja, Double>("Kaliber");
-		// colKaliber.setCellFactory(new DoubleCellFactory<Amunicja>());
-		colKaliber.setCellValueFactory(new PropertyValueFactory<>("kaliber"));
-
-		// kolumna implementujaca guziki do edycji poszczegolnego wiersza w bazie
-		TableColumn editButton = new TableColumn("Actions");
-		editButton.setCellValueFactory(new PropertyValueFactory<>("buttons"));
-		Callback<TableColumn<Amunicja, String>, TableCell<Amunicja, String>> cellFactory = //
-				new Callback<TableColumn<Amunicja, String>, TableCell<Amunicja, String>>() {
-					@Override
-					public TableCell call(final TableColumn<Amunicja, String> param) {
-						final TableCell<Amunicja, String> cell = new TableCell<Amunicja, String>() {
-
-							final Button btn = new Button("Edit");
-	
-							@Override
-							public void updateItem(String item, boolean empty) {
-								super.updateItem(item, empty);
-								if (empty) {
-									setGraphic(null);
-									setText(null);
-								} else {
-									btn.setOnAction(event -> {
-										Amunicja amunicja = getTableView().getItems().get(getIndex());
-										System.out.println(amunicja.getId());
-									});
-									setGraphic(btn);
-									setText(null);
-								}
-								}
-						};
-						return cell;
-					}
-				};
-		editButton.setCellFactory(cellFactory);
-
-		tabela.getColumns().addAll(colNazwa, colIlosc, colKaliber, editButton);
-
-		listObAmunicja = FXCollections.observableArrayList(listaAmunicja);
-		tabela.setItems(listObAmunicja);
-
-		return tabela;
-
-	}
-
-	private HBox getHBox() {
-		HBox hbox = new HBox(10);
-
-		Button btnBack = new Button("Powrót");
-		btnBack.setOnAction(event -> {
-			app.moveToGlowny();
-		});
-
-		hbox.getChildren().add(btnBack);
+		Label lbWprow = new Label("Szybkie wprowadzanie: ");
+		gp.add(lbWprow, 0, 0);
 
 		TextField rodzaj = new TextField("Rodzaj amunicji");
-		hbox.getChildren().add(rodzaj);
+		gp.add(rodzaj, 0, 1);
 		rodzaj.setOnMouseClicked(event -> {
 			rodzaj.clear();
 		});
 
 		TextField ilosc = new TextField("Ilość magazynków");
-		hbox.getChildren().add(ilosc);
+		gp.add(ilosc, 1, 1);
 		ilosc.setOnMouseClicked(event -> {
 			ilosc.clear();
 		});
 
 		TextField kaliber = new TextField("Kaliber pocisku");
 
-		hbox.getChildren().add(kaliber);
+		gp.add(kaliber, 2, 1);
 		kaliber.setOnMouseClicked(event -> {
 			kaliber.clear();
 		});
@@ -161,7 +112,40 @@ public class AmunicjaOkno extends BorderPane {
 			}
 		});
 
-		return hbox;
+
+		return gp;
 	}
+
+	private TableView<Amunicja> createTabelaAmunicja() {
+
+		TableView<Amunicja> tabela = new TableView<Amunicja>();
+
+		TableColumn<Amunicja, String> colNazwa = new TableColumn<Amunicja, String>("Nazwa");
+		// tworzy wartość do każdej komórki, parametr new PropertyValueFactory, argument to nazwa pola
+		colNazwa.setCellValueFactory(new PropertyValueFactory<>("nazwa_amunicji"));
+		TableColumn<Amunicja, Integer> colIlosc = new TableColumn<Amunicja, Integer>("Ilość");
+		colIlosc.setCellValueFactory(new PropertyValueFactory<>("ilosc"));
+		// modyfikacja zeby na poczatku 0 nie wyswietlala
+		TableColumn<Amunicja, Double> colKaliber = new TableColumn<Amunicja, Double>("Kaliber");
+		colKaliber.setCellValueFactory(new PropertyValueFactory<>("kaliber"));
+
+		// kolumna implementujaca guziki do edycji poszczegolnego wiersza w bazie
+		TableColumn colOperacje = new TableColumn();
+
+		Callback<TableColumn<Amunicja, String>, TableCell<Amunicja, String>> colGuzikiFactory =
+				new ActionsCellFactory(this);
+		colOperacje.setCellFactory(colGuzikiFactory);
+		colOperacje.setCellValueFactory(new PropertyValueFactory<>("guziki"));
+
+
+		tabela.getColumns().addAll(colNazwa, colIlosc, colKaliber, colOperacje);
+
+		listObAmunicja = FXCollections.observableArrayList(listaAmunicja);
+		tabela.setItems(listObAmunicja);
+
+		return tabela;
+
+	}
+
 
 	}

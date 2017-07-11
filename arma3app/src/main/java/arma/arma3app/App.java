@@ -35,6 +35,7 @@ public class App extends Application
 
 		firstScreen = new FirstScreen(this);
 		scFirstScreen = new Scene(firstScreen, 300, 300);
+		scFirstScreen.getStylesheets().add(getClass().getResource("firstScreenCSS.css").toExternalForm());
 		primaryStage.setScene(scFirstScreen);
 		primaryStage.show();
 
@@ -57,6 +58,7 @@ public class App extends Application
     public void moveToBronieOkno() {
 		bronieOkno = new BronieOkno(this);
 		scBronieOkno = new Scene(bronieOkno, 350, 600);
+		scBronieOkno.getStylesheets().add(getClass().getResource("bronieOknoCSS.css").toExternalForm());
 		stage.setScene(scBronieOkno);
 	}
 
@@ -69,13 +71,15 @@ public class App extends Application
 
 	public void moveToAmunicjaOkno() {
 		amunicjaOkno = new AmunicjaOkno(this);
-		scAmunicjaOkno = new Scene(amunicjaOkno, 350, 600);
+		scAmunicjaOkno = new Scene(amunicjaOkno, 525, 600);
+		scAmunicjaOkno.getStylesheets().add(getClass().getResource("amunicjaOknoCSS.css").toExternalForm());
 		stage.setScene(scAmunicjaOkno);
 	}
 
 	public void moveToKonfiguracjaOkno() {
 		konfiguracjaOkno = new KonfiguracjaOkno(this);
 		scKonfiguracjaOkno = new Scene(konfiguracjaOkno, 300, 400);
+		scKonfiguracjaOkno.getStylesheets().add(getClass().getResource("konfiguracjaOknoCSS.css").toExternalForm());
 		stage.setScene(scKonfiguracjaOkno);
 	}
 
