@@ -41,7 +41,7 @@ public class ActionsCellFactory implements Callback<TableColumn<Amunicja, String
 					FlowPane guziki = new FlowPane(btnPlus1, btnMinus1);
 					guziki.setHgap(10);
 					setGraphic(guziki);
-					setText("dupa");
+					setText(null);
 				}
 		}
 		};

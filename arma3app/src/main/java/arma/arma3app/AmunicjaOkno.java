@@ -3,6 +3,7 @@ package arma.arma3app;
 import java.util.List;
 
 import arma.arma3app.cellfactory.ActionsCellFactory;
+import arma.arma3app.cellfactory.DoubleCellFactory;
 import arma.itemdao.AmunicjaDao;
 import arma.itemdb.Amunicja;
 import arma.misc.DuplicateEntryException;
@@ -77,6 +78,8 @@ public class AmunicjaOkno extends BorderPane {
 		Label lbWprow = new Label("Szybkie wprowadzanie: ");
 		gp.add(lbWprow, 0, 0);
 
+
+
 		TextField rodzaj = new TextField("Rodzaj amunicji");
 		gp.add(rodzaj, 0, 1);
 		rodzaj.setOnMouseClicked(event -> {
@@ -127,6 +130,8 @@ public class AmunicjaOkno extends BorderPane {
 		colIlosc.setCellValueFactory(new PropertyValueFactory<>("ilosc"));
 		// modyfikacja zeby na poczatku 0 nie wyswietlala
 		TableColumn<Amunicja, Double> colKaliber = new TableColumn<Amunicja, Double>("Kaliber");
+		// z klasy doublecellfactory
+		colKaliber.setCellFactory(new DoubleCellFactory<Amunicja>());
 		colKaliber.setCellValueFactory(new PropertyValueFactory<>("kaliber"));
 
 		// kolumna implementujaca guziki do edycji poszczegolnego wiersza w bazie
