@@ -1,11 +1,17 @@
 package arma.itemdb;
 
 import java.io.Serializable;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -21,6 +27,10 @@ public class Bronie implements Serializable {
 	private int ilosc;
 	@Column(name = "kaliber")
 	private double kaliber;
+
+	@JoinTable(name = "amunicja_bronie", joinColumns = @JoinColumn(name = "bronie_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "amunicja_id", referencedColumnName = "id"))
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Amunicja> amunicja;
 
 	public Bronie() {
 
@@ -68,6 +78,14 @@ public class Bronie implements Serializable {
 	@Override
 	public String toString() {
 		return "Bronie [id=" + id + ", model_broni=" + model_broni + ", ilosc=" + ilosc + ", kaliber=" + kaliber + "]";
+	}
+
+	public Set<Amunicja> getAmunicja() {
+		return amunicja;
+	}
+
+	public void setAmunicja(Set<Amunicja> amunicja) {
+		this.amunicja = amunicja;
 	}
 
 }

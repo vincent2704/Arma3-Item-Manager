@@ -59,14 +59,11 @@ public class BronieDao implements Serializable {
 	public static void updateBronie(Bronie bronie) {
 		EntityManager em = DatabaseHandler.getEntityManager();
 
-		Bronie a = em.find(Bronie.class, bronie.getId());
-
 		em.getTransaction().begin();
-		a.setIlosc(bronie.getIlosc());
-		a.setKaliber(bronie.getKaliber());
-		a.setModel_broni(bronie.getModel_broni());
+		em.merge(bronie);
+		em.flush();
+		em.clear();
 		em.getTransaction().commit();
-		
 	}
 
 	public static void deleteBronie(Bronie bronie) {

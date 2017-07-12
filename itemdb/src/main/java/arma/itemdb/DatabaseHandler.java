@@ -5,8 +5,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import arma.misc.Konfiguracja;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 
 public class DatabaseHandler 
 {
@@ -15,18 +13,18 @@ public class DatabaseHandler
 	private static EntityManagerFactory emf;
 
 
-	public static void createConnection(Konfiguracja conf) {
+	public static boolean createConnection(Konfiguracja conf) {
 		closeConnection();
 		try {
 			emf = Persistence.createEntityManagerFactory("arma3", conf.getProperties());
 		// przejmuje ustawienia z persistence.xml
 			em = emf.createEntityManager();
-
+			return true;
 		} catch (Exception exc) {
-			alertConnection();
-			return;
+			exc.printStackTrace();
+			return false;
 		}
-		connSuccess();
+
 	}
 
 
@@ -37,31 +35,15 @@ public class DatabaseHandler
 	public static void closeConnection() {
 		if (em != null) {
 			em.close();
+			// po zamknieciu robi null z em zeby potem nie bylo bledu ze juz jest zamkniety
+			// a istnieje
+			em = null;
 		}
 		if (emf != null) {
 			emf.close();
+			em = null;
 		}
 	}
 
-	public static Alert alertConnection() {
-		Alert alertCon = new Alert(AlertType.ERROR);
-		alertCon.setTitle("Błąd połączenia!");
-		alertCon.setHeaderText("Nie udało się połączyć z bazą danych.");
-		alertCon.setContentText("Sprawdź swoje połączenie z bazą danych.");
-
-		alertCon.showAndWait();
-
-		return alertCon;
-
-	}
-
-	public static void connSuccess() {
-		Alert alertCon = new Alert(AlertType.INFORMATION);
-		alertCon.setTitle("Połączenie udane");
-		alertCon.setHeaderText("Nastąpiło połączenie z bazą danych.");
-		alertCon.setContentText("Program będzie działał w oparciu o bazę danych o podanych parametrach.");
-		alertCon.setX(0);
-		alertCon.showAndWait();
-	}
 
 }

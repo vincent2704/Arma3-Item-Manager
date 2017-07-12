@@ -2,12 +2,12 @@ package arma.arma3app;
 
 import java.io.File;
 
-import org.scenicview.ScenicView;
-
 import arma.itemdb.DatabaseHandler;
 import arma.misc.Konfiguracja;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -40,7 +40,6 @@ public class App extends Application
 
 		firstScreen = new FirstScreen(this);
 		scFirstScreen = new Scene(firstScreen, width, height);
-		ScenicView.show(scFirstScreen);
 		scFirstScreen.getStylesheets().add(getClass().getResource("/firstScreenCSS.css").toExternalForm());
 		moveToGlowny();
 		primaryStage.setWidth(width);
@@ -55,7 +54,12 @@ public class App extends Application
 		}
 
 		else {
-			DatabaseHandler.createConnection(k);
+			if (DatabaseHandler.createConnection(k)) {
+				connSuccess();
+			} else {
+				alertConnection();
+			}
+
 		}
 	}
 
@@ -88,6 +92,22 @@ public class App extends Application
 
 	public void moveToGlowny() {
 		stage.setScene(scFirstScreen);
+	}
+
+	public static void alertConnection() {
+		Alert alertCon = new Alert(AlertType.ERROR);
+		alertCon.setTitle("Błąd połączenia!");
+		alertCon.setHeaderText("Nie udało się połączyć z bazą danych.");
+		alertCon.setContentText("Sprawdź swoje połączenie z bazą danych.");
+		alertCon.showAndWait();
+	}
+
+	public static void connSuccess() {
+		Alert alertCon = new Alert(AlertType.INFORMATION);
+		alertCon.setTitle("Połączenie udane");
+		alertCon.setHeaderText("Nastąpiło połączenie z bazą danych.");
+		alertCon.setContentText("Program będzie działał w oparciu o bazę danych o podanych parametrach.");
+		alertCon.showAndWait();
 	}
 
 	public static void main( String[] args )

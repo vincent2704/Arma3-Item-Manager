@@ -1,11 +1,15 @@
 package arma.itemdb;
 
 import java.io.Serializable;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -21,6 +25,9 @@ public class Amunicja implements Serializable {
 	private double kaliber;
 	@Column(name = "ilosc")
 	private int ilosc;
+
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "amunicja")
+	private Set<Bronie> bronie;
 
 	public Amunicja() {
 
@@ -65,6 +72,14 @@ public class Amunicja implements Serializable {
 
 	public void setIlosc(int ilosc) {
 		this.ilosc = ilosc;
+	}
+
+	public Set<Bronie> getBronie() {
+		return bronie;
+	}
+
+	public void setBronie(Set<Bronie> bronie) {
+		this.bronie = bronie;
 	}
 	
 	
