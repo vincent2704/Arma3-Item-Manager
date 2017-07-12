@@ -42,30 +42,31 @@ public class KonfiguracjaOkno extends BorderPane {
 		vbox.getChildren().add(lbSerwer);
 		tfSerwer = new TextField(konf != null ? konf.getStrSerwer() : "");
 		vbox.getChildren().add(tfSerwer);
+		tfSerwer.setMaxWidth(250);
 
 		Label lbPort = new Label("Numer portu: ");
 		vbox.getChildren().add(lbPort);
 		tfPort = new TextField(konf != null ? konf.getIntPort() + "" : "");
 		vbox.getChildren().add(tfPort);
-
+		tfPort.setMaxWidth(250);
 
 		Label lbBaza = new Label("Nazwa bazy danych: ");
 		vbox.getChildren().add(lbBaza);
 		tfBaza = new TextField(konf != null ? konf.getStrBaza() : "");
 		vbox.getChildren().add(tfBaza);
-
+		tfBaza.setMaxWidth(250);
 
 		Label lbUser = new Label("Nazwa użytkownika: ");
 		vbox.getChildren().add(lbUser);
 		tfUser = new TextField(konf != null ? konf.getStrUser() : "");
 		vbox.getChildren().add(tfUser);
-
+		tfUser.setMaxWidth(250);
 
 		Label lbHaslo = new Label("Hasło użytkownika: ");
 		vbox.getChildren().add(lbHaslo);
 		pfHaslo = new PasswordField();
 		vbox.getChildren().add(pfHaslo);
-
+		pfHaslo.setMaxWidth(250);
 
 		return vbox;
 	}

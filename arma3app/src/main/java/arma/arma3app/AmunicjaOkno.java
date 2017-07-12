@@ -2,7 +2,7 @@ package arma.arma3app;
 
 import java.util.List;
 
-import arma.arma3app.cellfactory.ActionsCellFactory;
+import arma.arma3app.cellfactory.AmunicjaCellFactory;
 import arma.arma3app.cellfactory.DoubleCellFactory;
 import arma.itemdao.AmunicjaDao;
 import arma.itemdb.Amunicja;
@@ -30,6 +30,12 @@ public class AmunicjaOkno extends BorderPane {
 
 	private ObservableList<Amunicja> listObAmunicja;
 	private List<Amunicja> listaAmunicja;
+
+	private TextField rodzaj;
+
+	private TextField ilosc;
+
+	private TextField kaliber;
 
 	public AmunicjaOkno(App app) {
 		this.app = app;
@@ -74,49 +80,59 @@ public class AmunicjaOkno extends BorderPane {
 	private GridPane gridPane() {
 		GridPane gp = new GridPane();
 		gp.setPadding(new Insets(10, 10, 10, 10));
+		gp.setHgap(10);
 
 		Label lbWprow = new Label("Szybkie wprowadzanie: ");
 		gp.add(lbWprow, 0, 0);
 
 
 
-		TextField rodzaj = new TextField("Rodzaj amunicji");
+		rodzaj = new TextField("Rodzaj amunicji");
 		gp.add(rodzaj, 0, 1);
 		rodzaj.setOnMouseClicked(event -> {
 			rodzaj.clear();
 		});
 
-		TextField ilosc = new TextField("Ilość magazynków");
+		ilosc = new TextField("Ilość");
+		ilosc.setMaxWidth(80);
 		gp.add(ilosc, 1, 1);
 		ilosc.setOnMouseClicked(event -> {
 			ilosc.clear();
 		});
 
-		TextField kaliber = new TextField("Kaliber pocisku");
-
+		kaliber = new TextField("Kaliber");
+		kaliber.setMaxWidth(80);
 		gp.add(kaliber, 2, 1);
 		kaliber.setOnMouseClicked(event -> {
 			kaliber.clear();
 		});
 
-		kaliber.setOnKeyPressed(event -> {
+		Button btnDodaj = new Button("Dodaj");
+		gp.add(btnDodaj, 3, 1);
+		btnDodaj.setOnAction(event -> {
+			putInDatabaseAmmo();
+		});
 
+		kaliber.setOnKeyPressed(event -> {
 			if (event.getCode() == KeyCode.ENTER) {
-				try {
-					AmunicjaDao.registerAmmo(rodzaj.getText(), Integer.parseInt(ilosc.getText()),
-							Double.parseDouble(kaliber.getText()));
-				} catch (NumberFormatException e) {
-					zlyFormatAmmo();
-				} catch (DuplicateEntryException e) {
-					duplicateAmmo();
-				}
-				updateTable();
+				putInDatabaseAmmo();
 
 			}
 		});
 
-
 		return gp;
+	}
+
+	private void putInDatabaseAmmo() {
+		try {
+			AmunicjaDao.registerAmmo(rodzaj.getText(), Integer.parseInt(ilosc.getText()),
+					Double.parseDouble(kaliber.getText()));
+		} catch (NumberFormatException e) {
+			zlyFormatAmmo();
+		} catch (DuplicateEntryException e) {
+			duplicateAmmo();
+		}
+		updateTable();
 	}
 
 	private TableView<Amunicja> createTabelaAmunicja() {
@@ -125,6 +141,9 @@ public class AmunicjaOkno extends BorderPane {
 		// tabela.setFixedCellSize(35);
 
 		TableColumn<Amunicja, String> colNazwa = new TableColumn<Amunicja, String>("Nazwa");
+		colNazwa.setId("colNazwa");
+		colNazwa.setMaxWidth(220);
+		colNazwa.setMinWidth(220);
 		// tworzy wartość do każdej komórki, parametr new PropertyValueFactory, argument to nazwa pola
 		colNazwa.setCellValueFactory(new PropertyValueFactory<>("nazwa_amunicji"));
 		TableColumn<Amunicja, Integer> colIlosc = new TableColumn<Amunicja, Integer>("Ilość");
@@ -139,7 +158,7 @@ public class AmunicjaOkno extends BorderPane {
 		TableColumn colOperacje = new TableColumn();
 
 		Callback<TableColumn<Amunicja, String>, TableCell<Amunicja, String>> colGuzikiFactory =
-				new ActionsCellFactory(this);
+				new AmunicjaCellFactory(this);
 		colOperacje.setCellFactory(colGuzikiFactory);
 		colOperacje.setCellValueFactory(new PropertyValueFactory<>("guziki"));
 

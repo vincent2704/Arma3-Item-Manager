@@ -11,8 +11,17 @@
 	-fx-font-weight: bold;
 }
 
+.table-cell{
+	-fx-alignment: TOP_CENTER;
+}
+
+.table-view #colNazwa{
+	-fx-alignment:top-left ;
+}
+
 .table-view .table-cell{
     -fx-background-color: rgba(169,169,169, 0.5);
+
 }
 
 .button{

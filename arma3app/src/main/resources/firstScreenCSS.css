@@ -1,0 +1,16 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.root{
+	-fx-background-image: url("grom_menu2.png");
+}
+
+.button{
+	-fx-background-color: rgba(0,0,0, 0.5);
+	-fx-text-fill: white;
+	-fx-border-style: solid;
+}
+
+.button:hover{
+	-fx-background-color:  
+		linear-gradient(rgba(80,80,80,0.5) 0%, rgba(80,80,80,0.7) 25%,rgba(80,80,80,0.7) 75%, rgba(80,80,80,0.5) 100%);
+	-fx-text-fill: black;
+}

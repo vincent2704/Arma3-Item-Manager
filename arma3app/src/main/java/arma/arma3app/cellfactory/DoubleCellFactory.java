@@ -1,6 +1,7 @@
 package arma.arma3app.cellfactory;
 
-import javafx.scene.control.*;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
 import javafx.util.Callback;
 
 //interfejsy sie wziely z tych, ktore implementuje metoda setcellvaluefactory. Klasa ma na celu modyfikacje zapisu double w tableview

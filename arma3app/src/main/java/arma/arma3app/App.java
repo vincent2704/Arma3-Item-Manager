@@ -2,6 +2,8 @@ package arma.arma3app;
 
 import java.io.File;
 
+import org.scenicview.ScenicView;
+
 import arma.itemdb.DatabaseHandler;
 import arma.misc.Konfiguracja;
 import javafx.application.Application;
@@ -20,28 +22,30 @@ public class App extends Application
 	Stage stage;
 	FirstScreen firstScreen;
 	BronieOkno bronieOkno;
-	DodajBronOkno dodajBronOkno;
 	AmunicjaOkno amunicjaOkno;
 	KonfiguracjaOkno konfiguracjaOkno;
-	Scene scFirstScreen, scBronieOkno, scDodajBron, scAmunicjaOkno, scKonfiguracjaOkno;
+	Scene scFirstScreen, scBronieOkno, scAmunicjaOkno, scKonfiguracjaOkno;
+	private static final int width = 525, height = 600;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		stage = primaryStage;
 		primaryStage.setTitle("Arma 3 Item Manager");
-		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("sniper_rifle-512.png")));
-
-
-
-		firstScreen = new FirstScreen(this);
-		scFirstScreen = new Scene(firstScreen, 300, 300);
-		scFirstScreen.getStylesheets().add(getClass().getResource("firstScreenCSS.css").toExternalForm());
-		primaryStage.setScene(scFirstScreen);
-		primaryStage.show();
+		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));
+		stage.setResizable(false);
 
 		primaryStage.setOnCloseRequest(event -> {
 			DatabaseHandler.closeConnection();
 		});
+
+		firstScreen = new FirstScreen(this);
+		scFirstScreen = new Scene(firstScreen, width, height);
+		ScenicView.show(scFirstScreen);
+		scFirstScreen.getStylesheets().add(getClass().getResource("/firstScreenCSS.css").toExternalForm());
+		moveToGlowny();
+		primaryStage.setWidth(width);
+		primaryStage.setHeight(height);
+		primaryStage.show();
 
 		Konfiguracja k = Konfiguracja.readConfig();
 
@@ -49,37 +53,36 @@ public class App extends Application
 			Konfiguracja.brakKonfiguracji();
 			moveToKonfiguracjaOkno();
 		}
-		else {
 
+		else {
 			DatabaseHandler.createConnection(k);
 		}
 	}
 
     public void moveToBronieOkno() {
+		if (scBronieOkno == null) {
 		bronieOkno = new BronieOkno(this);
-		scBronieOkno = new Scene(bronieOkno, 350, 600);
-		scBronieOkno.getStylesheets().add(getClass().getResource("bronieOknoCSS.css").toExternalForm());
+			scBronieOkno = new Scene(bronieOkno, width, height);
+		scBronieOkno.getStylesheets().add(getClass().getResource("/bronieOknoCSS.css").toExternalForm());
+		}
 		stage.setScene(scBronieOkno);
 	}
 
-	public void moveToDodajBron() {
-		dodajBronOkno = new DodajBronOkno(this);
-		scDodajBron = new Scene(dodajBronOkno, 380, 300);
-		stage.setScene(scDodajBron);
-
-	}
-
 	public void moveToAmunicjaOkno() {
+		if (scAmunicjaOkno == null) {
 		amunicjaOkno = new AmunicjaOkno(this);
-		scAmunicjaOkno = new Scene(amunicjaOkno, 525, 600);
-		scAmunicjaOkno.getStylesheets().add(getClass().getResource("amunicjaOknoCSS.css").toExternalForm());
+			scAmunicjaOkno = new Scene(amunicjaOkno, width, height);
+		scAmunicjaOkno.getStylesheets().add(getClass().getResource("/amunicjaOknoCSS.css").toExternalForm());
+		}
 		stage.setScene(scAmunicjaOkno);
 	}
 
 	public void moveToKonfiguracjaOkno() {
+		if (scKonfiguracjaOkno == null) {
 		konfiguracjaOkno = new KonfiguracjaOkno(this);
-		scKonfiguracjaOkno = new Scene(konfiguracjaOkno, 300, 400);
-		scKonfiguracjaOkno.getStylesheets().add(getClass().getResource("konfiguracjaOknoCSS.css").toExternalForm());
+			scKonfiguracjaOkno = new Scene(konfiguracjaOkno, width, height);
+		scKonfiguracjaOkno.getStylesheets().add(getClass().getResource("/konfiguracjaOknoCSS.css").toExternalForm());
+		}
 		stage.setScene(scKonfiguracjaOkno);
 	}
 

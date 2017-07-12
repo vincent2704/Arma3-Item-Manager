@@ -69,4 +69,12 @@ public class AmunicjaDao {
 
 	}
 
+	public static void deleteAmunicja(Amunicja ammo) {
+		EntityManager em = DatabaseHandler.getEntityManager();
+
+		em.getTransaction().begin();
+		em.remove(ammo);
+		em.getTransaction().commit();
+	}
+
 }

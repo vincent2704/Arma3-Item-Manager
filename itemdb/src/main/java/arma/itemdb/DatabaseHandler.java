@@ -55,15 +55,13 @@ public class DatabaseHandler
 
 	}
 
-	public static Alert connSuccess() {
+	public static void connSuccess() {
 		Alert alertCon = new Alert(AlertType.INFORMATION);
 		alertCon.setTitle("Połączenie udane");
 		alertCon.setHeaderText("Nastąpiło połączenie z bazą danych.");
 		alertCon.setContentText("Program będzie działał w oparciu o bazę danych o podanych parametrach.");
-
+		alertCon.setX(0);
 		alertCon.showAndWait();
-
-		return alertCon;
 	}
 
 }

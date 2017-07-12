@@ -11,10 +11,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.FlowPane;
 import javafx.util.Callback;
 
-public class ActionsCellFactory implements Callback<TableColumn<Amunicja, String>, TableCell<Amunicja, String>> {
+public class AmunicjaCellFactory implements Callback<TableColumn<Amunicja, String>, TableCell<Amunicja, String>> {
 	private AmunicjaOkno amunicjaOkno;
 
-	public ActionsCellFactory(AmunicjaOkno amunicjaOkno) {
+	public AmunicjaCellFactory(AmunicjaOkno amunicjaOkno) {
 		this.amunicjaOkno = amunicjaOkno;
 	}
 
@@ -25,8 +25,9 @@ public class ActionsCellFactory implements Callback<TableColumn<Amunicja, String
 			// button, element komorki
 			Button btnPlus1 = new Button("+1");
 			Button btnMinus1 = new Button("-1");
-			TextField tfCustomIlosc = new TextField("Wprowadź ilość");
-			FlowPane fpOperacje = new FlowPane(btnPlus1, btnMinus1, tfCustomIlosc);
+			Button btnUsun = new Button("Usuń");
+			TextField tfCustomIlosc = new TextField("Ilość");
+			FlowPane fpOperacje = new FlowPane(btnPlus1, btnMinus1, tfCustomIlosc, btnUsun);
 
 			// override metody updateItem pozwala na customowy wyglad komorek. tutaj jest to uzyte w celu
 			// wprowadzania buttonow jako elementow kazdego wpisu
@@ -57,6 +58,9 @@ public class ActionsCellFactory implements Callback<TableColumn<Amunicja, String
 							amunicjaOkno.updateTable();
 						}
 					});
+
+					tfCustomIlosc.setMaxWidth(50);
+
 					tfCustomIlosc.setOnMousePressed(event -> {
 						tfCustomIlosc.clear();
 					});
@@ -68,6 +72,12 @@ public class ActionsCellFactory implements Callback<TableColumn<Amunicja, String
 							AmunicjaDao.updateAmmo(amunicja);
 							amunicjaOkno.updateTable();
 						}
+					});
+
+					btnUsun.setOnAction(event -> {
+						Amunicja amunicja = getTableView().getItems().get(getIndex());
+						AmunicjaDao.deleteAmunicja(amunicja);
+						amunicjaOkno.updateTable();
 					});
 
 					fpOperacje.setHgap(10);
