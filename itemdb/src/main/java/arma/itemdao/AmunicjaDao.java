@@ -43,17 +43,29 @@ public class AmunicjaDao {
 
 	// do uzupelniania comboboxa po pasujacym kalibrze w opcjach "wiecej" w
 	// BronieOkno
-	public static List<String> getNazwaPoKalibrzeAmmo(double kaliber) {
+	public static List<Amunicja> getAmunicjaPoKalibrzeAmmo(double kaliber) {
 		EntityManager em = DatabaseHandler.getEntityManager();
 
-		String qString = "SELECT a.nazwa_amunicji FROM Amunicja a WHERE kaliber = :kaliber";
+		String qString = "SELECT a FROM Amunicja a WHERE kaliber = :kaliber";
 
-		TypedQuery<String> q = em.createQuery(qString, String.class);
+		TypedQuery<Amunicja> q = em.createQuery(qString, Amunicja.class);
 		q.setParameter("kaliber", kaliber);
 
-		List<String> listaPoKalibrzeAmmo = q.getResultList();
+		List<Amunicja> listaPoKalibrzeAmmo = q.getResultList();
 
 		return listaPoKalibrzeAmmo;
+	}
+
+	public static Amunicja getAmunicjaPoNazwie(String nazwa) {
+		EntityManager em = DatabaseHandler.getEntityManager();
+
+		String qString = "SELECT a.nazwa_amunicji FROM Amunicja a WHERE nazwa_amunicji = :nazwa";
+		TypedQuery<Amunicja> q = em.createQuery(qString, Amunicja.class);
+		q.setParameter("nazwa_amunicji", nazwa);
+
+		Amunicja ammo = q.getSingleResult();
+
+		return ammo;
 	}
 
 	public static void registerAmmo(String nazwa, int ilosc, double kaliber) throws DuplicateEntryException {

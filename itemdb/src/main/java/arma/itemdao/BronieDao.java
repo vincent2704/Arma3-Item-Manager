@@ -38,7 +38,7 @@ public class BronieDao implements Serializable {
 		}
 	}
 
-
+	// powiazywanie broni z amunicja
 
 
 	// zwraca liste wszystkich obiektow typu Bronie
@@ -70,6 +70,8 @@ public class BronieDao implements Serializable {
 		EntityManager em = DatabaseHandler.getEntityManager();
 
 		em.getTransaction().begin();
+		// merge ponownie laczy argument z kontekstem persistence
+		em.merge(bronie);
 		em.remove(bronie);
 		em.getTransaction().commit();
 	}

@@ -1,6 +1,8 @@
 package arma.arma3app;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import arma.itemdao.AmunicjaDao;
 import arma.itemdao.BronieDao;
@@ -13,19 +15,16 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 
 public class WiecejOpcjiOkno extends Dialog<Boolean> {
 
 	private Bronie bron;
-	private Amunicja amunicja;
 	private boolean zmieniono;
-
-	List<String> listMatchingAmmo;
-	ObservableList<String> obsListAmmoName;
-	List<String> lstMatchingKaliberAmmo;
-	ObservableList<String> obslstMatchingKaliberAmmo;
+	private ListView<Amunicja> matchingAmmo;
+	private ComboBox<Amunicja> matchingCal;
 
 	public WiecejOpcjiOkno(Bronie bron) {
 		this.bron = bron;
@@ -42,35 +41,55 @@ public class WiecejOpcjiOkno extends Dialog<Boolean> {
 
 		});
 
-		ListView<String> matchingAmmo = new ListView<>();
-		ComboBox<String> matchingCal = new ComboBox<>();
+		matchingAmmo = new ListView<>();
 		Button btnUsunAmmo = new Button("Usuń amunicję");
+		Label lbLista = new Label("Przypisane magazynki:");
 
-		listMatchingAmmo = AmunicjaDao.getNazwaAmmo();
-		obsListAmmoName = FXCollections.observableList(listMatchingAmmo);
+		Set<Amunicja> listMatchingAmmo = bron.getAmunicja();
+		ObservableList<Amunicja> obsListMatchingAmmo = FXCollections
+				.observableList(new ArrayList<Amunicja>(listMatchingAmmo));
 
-		matchingAmmo.setItems(obsListAmmoName);
+		matchingAmmo.setItems(obsListMatchingAmmo);
 
-		lstMatchingKaliberAmmo = AmunicjaDao.getNazwaPoKalibrzeAmmo(bron.getKaliber());
-		obslstMatchingKaliberAmmo = FXCollections.observableList(lstMatchingKaliberAmmo);
-
-		matchingCal.setItems(obslstMatchingKaliberAmmo);
-
-
-
+		List<Amunicja> lstMatchingKaliberAmmo = AmunicjaDao.getAmunicjaPoKalibrzeAmmo(bron.getKaliber());
+		ObservableList<Amunicja> obslstMatchingKaliberAmmo = FXCollections.observableList(lstMatchingKaliberAmmo);
 
 		GridPane gp = new GridPane();
 		gp.setVgap(10);
 		gp.setHgap(10);
+
 		gp.add(btnUsunBron, 0, 0);
+		gp.add(lbLista, 0, 1);
 		gp.add(btnUsunAmmo, 1, 0);
-		gp.add(matchingAmmo, 0, 1);
-		gp.add(matchingCal, 1, 1);
+		gp.add(matchingAmmo, 0, 2);
+
+		// przypisywanie
+		GridPane gpCal = new GridPane();
+		Label lbMatchingCal = new Label("Wybierz magazynek do przypisania");
+		matchingCal = new ComboBox<>();
+
+		matchingCal.setItems(obslstMatchingKaliberAmmo);
+		Button btnPrzypisz = new Button("Przypisz");
+		gpCal.add(lbMatchingCal, 0, 0);
+		gpCal.add(matchingCal, 0, 1);
+		gpCal.add(btnPrzypisz, 0, 2);
+		btnPrzypisz.setOnAction(event -> {
+			bron.getAmunicja().add(matchingCal.getValue());
+			BronieDao.updateBronie(bron);
+		});
+
+		// odlaczanie przypisan
+		GridPane gpOdlacz = new GridPane();
+		Label lbOdlacz = new Label("Odłącz powiązanie:");
+		ComboBox<String> associated = new ComboBox<String>();
+
+		gp.add(gpCal, 1, 2);
 
 		getDialogPane().setContent(gp);
 
 		setResultConverter(dialogButton -> {
 			if (dialogButton == btnZapisz) {
+				save();
 				return zmieniono;
 			}
 			return false;
@@ -79,5 +98,8 @@ public class WiecejOpcjiOkno extends Dialog<Boolean> {
 
 	}
 
+	private void save() {
+
+	}
 
 }

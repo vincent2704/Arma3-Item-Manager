@@ -81,6 +81,11 @@ public class Amunicja implements Serializable {
 	public void setBronie(Set<Bronie> bronie) {
 		this.bronie = bronie;
 	}
+
+	@Override
+	public String toString() {
+		return nazwa_amunicji;
+	}
 	
 	
 
