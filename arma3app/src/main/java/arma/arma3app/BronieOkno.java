@@ -159,6 +159,12 @@ public class BronieOkno extends BorderPane {
 		colKaliber.setCellFactory(new DoubleCellFactory<Bronie>());
 		colKaliber.setCellValueFactory(new PropertyValueFactory<>("kaliber"));
 
+		// ilosc magazynkow dla danej broni z klasy Amunicja
+
+		TableColumn<Bronie, Integer> colMagazynki = new TableColumn<Bronie, Integer>("Amunicja");
+		colMagazynki.setCellValueFactory(new PropertyValueFactory<>("ilosc_magazynkow"));
+		colMagazynki.setCellFactory(createMagazynkiCellFactory());
+
 		// kolumna implementujaca guziki do edycji poszczegolnego wiersza w bazie
 		TableColumn colOperacje = new TableColumn();
 		colOperacje.setPrefWidth(206);
@@ -169,13 +175,44 @@ public class BronieOkno extends BorderPane {
 		colOperacje.setCellFactory(colGuzikiFactory);
 		colOperacje.setCellValueFactory(new PropertyValueFactory<>("guziki"));
 
-		tabela.getColumns().addAll(colNazwa, colIlosc, colKaliber, colOperacje);
+		tabela.getColumns().addAll(colNazwa, colIlosc, colMagazynki, colKaliber, colOperacje);
 
 		listObBronie = FXCollections.observableArrayList(listaBronie);
 		tabela.setItems(listObBronie);
 
 		return tabela;
 
+	}
+
+	private Callback<TableColumn<Bronie, Integer>, TableCell<Bronie, Integer>> createMagazynkiCellFactory() {
+		
+		return new Callback<TableColumn<Bronie, Integer>, TableCell<Bronie, Integer>>(){
+
+			@Override
+			public TableCell<Bronie, Integer> call(TableColumn<Bronie, Integer> param) {
+				TableCell<Bronie, Integer> cell = new TableCell<Bronie, Integer>(){
+					
+					private int suma;
+
+					@Override
+					public void updateItem(Integer item, boolean empty) {
+						if (empty) {
+							setText(null);
+						} else {
+						Bronie bronie = getTableView().getItems().get(getIndex());
+						suma = 0;
+						bronie.getAmunicja().forEach(ammo -> {
+							suma += ammo.getIlosc();
+						});
+
+						setText(suma + "");
+						}
+					}
+				};
+				return cell;
+			}
+			
+		};
 	}
 
 }

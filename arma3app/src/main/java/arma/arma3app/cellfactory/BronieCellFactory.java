@@ -9,8 +9,6 @@ import arma.itemdb.Bronie;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 
@@ -28,9 +26,8 @@ public class BronieCellFactory implements Callback<TableColumn<Bronie, String>, 
 			// button, element komorki
 			Button btnPlus1 = new Button("+1");
 			Button btnMinus1 = new Button("-1");
-			TextField tfCustomIlosc = new TextField("Ilość");
 			Button btnWiecej = new Button("Więcej");
-			HBox fpOperacje = new HBox(10, btnPlus1, btnMinus1, tfCustomIlosc, btnWiecej);
+			HBox fpOperacje = new HBox(10, btnPlus1, btnMinus1, btnWiecej);
 
 			// override metody updateItem pozwala na customowy wyglad komorek. tutaj jest to uzyte w celu
 			// wprowadzania buttonow jako elementow kazdego wpisu
@@ -57,20 +54,6 @@ public class BronieCellFactory implements Callback<TableColumn<Bronie, String>, 
 						// funkcja buttona
 						if (bronie.getIlosc() > 0) {
 							bronie.setIlosc(bronie.getIlosc() - 1);
-							BronieDao.updateBronie(bronie);
-							bronieOkno.updateTable();
-						}
-					});
-					tfCustomIlosc.setOnMousePressed(event -> {
-						tfCustomIlosc.clear();
-					});
-
-					tfCustomIlosc.setMaxWidth(50);
-
-					tfCustomIlosc.setOnKeyPressed(event -> {
-						if (event.getCode() == KeyCode.ENTER) {
-							Bronie bronie = getTableView().getItems().get(getIndex());
-							bronie.setIlosc(Integer.parseInt(tfCustomIlosc.getText()));
 							BronieDao.updateBronie(bronie);
 							bronieOkno.updateTable();
 						}
