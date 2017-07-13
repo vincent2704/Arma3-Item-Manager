@@ -1,6 +1,9 @@
 package arma.arma3app.cellfactory;
 
+import java.util.Optional;
+
 import arma.arma3app.BronieOkno;
+import arma.arma3app.WiecejOpcjiOkno;
 import arma.itemdao.BronieDao;
 import arma.itemdb.Bronie;
 import javafx.scene.control.Button;
@@ -8,7 +11,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 
 public class BronieCellFactory implements Callback<TableColumn<Bronie, String>, TableCell<Bronie, String>> {
@@ -19,15 +22,15 @@ public class BronieCellFactory implements Callback<TableColumn<Bronie, String>, 
 	}
 
 	@Override
-	public TableCell call(TableColumn<Bronie, String> param) {
+	public TableCell<Bronie, String> call(TableColumn<Bronie, String> param) {
 		TableCell<Bronie, String> cell = new TableCell<Bronie, String>() {
 
 			// button, element komorki
 			Button btnPlus1 = new Button("+1");
 			Button btnMinus1 = new Button("-1");
 			TextField tfCustomIlosc = new TextField("Ilość");
-			Button btnUsun = new Button("Usuń");
-			FlowPane fpOperacje = new FlowPane(btnPlus1, btnMinus1, tfCustomIlosc, btnUsun);
+			Button btnWiecej = new Button("Więcej");
+			HBox fpOperacje = new HBox(10, btnPlus1, btnMinus1, tfCustomIlosc, btnWiecej);
 
 			// override metody updateItem pozwala na customowy wyglad komorek. tutaj jest to uzyte w celu
 			// wprowadzania buttonow jako elementow kazdego wpisu
@@ -73,13 +76,15 @@ public class BronieCellFactory implements Callback<TableColumn<Bronie, String>, 
 						}
 					});
 
-					btnUsun.setOnAction(event -> {
-						Bronie bron = getTableView().getItems().get(getIndex());
-						BronieDao.deleteBronie(bron);
-						bronieOkno.updateTable();
+					btnWiecej.setOnAction(event -> {
+						Bronie bronie = getTableView().getItems().get(getIndex());
+						Optional<Boolean> changed = new WiecejOpcjiOkno(bronie).showAndWait();
+						changed.ifPresent(c -> {
+							if (c) {
+								bronieOkno.updateTable();
+							}
+						});
 					});
-
-					fpOperacje.setHgap(10);
 					setGraphic(fpOperacje);
 					setText(null);
 				}

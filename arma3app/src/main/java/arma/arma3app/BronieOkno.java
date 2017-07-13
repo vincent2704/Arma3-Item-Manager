@@ -140,8 +140,7 @@ public class BronieOkno extends BorderPane {
 		// tabela.setFixedCellSize(35);
 
 		TableColumn<Bronie, String> colNazwa = new TableColumn<Bronie, String>("Model");
-		colNazwa.setMaxWidth(220);
-		colNazwa.setMinWidth(220);
+		colNazwa.setPrefWidth(220);
 		// tworzy wartość do każdej komórki, parametr new PropertyValueFactory, argument to nazwa pola
 		colNazwa.setCellValueFactory(new PropertyValueFactory<>("model_broni"));
 		TableColumn<Bronie, Integer> colIlosc = new TableColumn<Bronie, Integer>("Ilość");
@@ -154,6 +153,7 @@ public class BronieOkno extends BorderPane {
 
 		// kolumna implementujaca guziki do edycji poszczegolnego wiersza w bazie
 		TableColumn colOperacje = new TableColumn();
+		colOperacje.setPrefWidth(206);
 
 		Callback<TableColumn<Bronie, String>, TableCell<Bronie, String>> colGuzikiFactory = new BronieCellFactory(this);
 		colOperacje.setCellFactory(colGuzikiFactory);
