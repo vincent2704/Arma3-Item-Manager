@@ -141,21 +141,31 @@ public class AmunicjaOkno extends BorderPane {
 		// tabela.setFixedCellSize(35);
 
 		TableColumn<Amunicja, String> colNazwa = new TableColumn<Amunicja, String>("Nazwa");
+		// id do zmiany alignmentu zeby nazwa amunicji byla od lewej a nie wysrodkowana w programie
 		colNazwa.setId("colNazwa");
-		colNazwa.setMaxWidth(220);
-		colNazwa.setMinWidth(220);
+		colNazwa.setMaxWidth(210);
+		colNazwa.setMinWidth(210);
 		// tworzy wartość do każdej komórki, parametr new PropertyValueFactory, argument to nazwa pola
 		colNazwa.setCellValueFactory(new PropertyValueFactory<>("nazwa_amunicji"));
 		TableColumn<Amunicja, Integer> colIlosc = new TableColumn<Amunicja, Integer>("Ilość");
+		colIlosc.setPrefWidth(44);
+		colIlosc.setMaxWidth(44);
+		colIlosc.setMinWidth(44);
 		colIlosc.setCellValueFactory(new PropertyValueFactory<>("ilosc"));
 		// modyfikacja zeby na poczatku 0 nie wyswietlala
 		TableColumn<Amunicja, Double> colKaliber = new TableColumn<Amunicja, Double>("Kaliber");
+		colKaliber.setPrefWidth(76);
+		colKaliber.setMaxWidth(76);
+		colKaliber.setMinWidth(76);
 		// z klasy doublecellfactory
 		colKaliber.setCellFactory(new DoubleCellFactory<Amunicja>());
 		colKaliber.setCellValueFactory(new PropertyValueFactory<>("kaliber"));
 
 		// kolumna implementujaca guziki do edycji poszczegolnego wiersza w bazie
 		TableColumn colOperacje = new TableColumn();
+		colOperacje.setPrefWidth(206);
+		colOperacje.setMaxWidth(206);
+		colOperacje.setMinWidth(206);
 
 		Callback<TableColumn<Amunicja, String>, TableCell<Amunicja, String>> colGuzikiFactory =
 				new AmunicjaCellFactory(this);

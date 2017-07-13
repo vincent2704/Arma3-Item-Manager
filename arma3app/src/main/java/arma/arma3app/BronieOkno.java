@@ -140,13 +140,21 @@ public class BronieOkno extends BorderPane {
 		// tabela.setFixedCellSize(35);
 
 		TableColumn<Bronie, String> colNazwa = new TableColumn<Bronie, String>("Model");
-		colNazwa.setPrefWidth(220);
+		colNazwa.setPrefWidth(191);
+		colNazwa.setMaxWidth(191);
+		colNazwa.setMinWidth(191);
 		// tworzy wartość do każdej komórki, parametr new PropertyValueFactory, argument to nazwa pola
 		colNazwa.setCellValueFactory(new PropertyValueFactory<>("model_broni"));
 		TableColumn<Bronie, Integer> colIlosc = new TableColumn<Bronie, Integer>("Ilość");
+		colIlosc.setPrefWidth(44);
+		colIlosc.setMaxWidth(44);
+		colIlosc.setMinWidth(44);
 		colIlosc.setCellValueFactory(new PropertyValueFactory<>("ilosc"));
 		// modyfikacja zeby na poczatku 0 nie wyswietlala
 		TableColumn<Bronie, Double> colKaliber = new TableColumn<Bronie, Double>("Kaliber");
+		colKaliber.setPrefWidth(76);
+		colKaliber.setMaxWidth(76);
+		colKaliber.setMinWidth(76);
 		// z klasy doublecellfactory
 		colKaliber.setCellFactory(new DoubleCellFactory<Bronie>());
 		colKaliber.setCellValueFactory(new PropertyValueFactory<>("kaliber"));
@@ -154,6 +162,8 @@ public class BronieOkno extends BorderPane {
 		// kolumna implementujaca guziki do edycji poszczegolnego wiersza w bazie
 		TableColumn colOperacje = new TableColumn();
 		colOperacje.setPrefWidth(206);
+		colOperacje.setMaxWidth(206);
+		colOperacje.setMinWidth(206);
 
 		Callback<TableColumn<Bronie, String>, TableCell<Bronie, String>> colGuzikiFactory = new BronieCellFactory(this);
 		colOperacje.setCellFactory(colGuzikiFactory);

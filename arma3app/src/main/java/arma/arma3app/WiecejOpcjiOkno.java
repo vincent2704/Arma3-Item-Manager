@@ -1,8 +1,13 @@
 package arma.arma3app;
 
+import java.util.List;
+
+import arma.itemdao.AmunicjaDao;
 import arma.itemdao.BronieDao;
 import arma.itemdb.Amunicja;
 import arma.itemdb.Bronie;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
@@ -14,7 +19,13 @@ import javafx.scene.layout.GridPane;
 public class WiecejOpcjiOkno extends Dialog<Boolean> {
 
 	private Bronie bron;
+	private Amunicja amunicja;
 	private boolean zmieniono;
+
+	List<String> listMatchingAmmo;
+	ObservableList<String> obsListAmmoName;
+	List<String> lstMatchingKaliberAmmo;
+	ObservableList<String> obslstMatchingKaliberAmmo;
 
 	public WiecejOpcjiOkno(Bronie bron) {
 		this.bron = bron;
@@ -31,9 +42,22 @@ public class WiecejOpcjiOkno extends Dialog<Boolean> {
 
 		});
 
-		ListView<Amunicja> matchingAmmo = new ListView<>();
-		ComboBox<Amunicja> matchingCal = new ComboBox<>();
+		ListView<String> matchingAmmo = new ListView<>();
+		ComboBox<String> matchingCal = new ComboBox<>();
 		Button btnUsunAmmo = new Button("Usuń amunicję");
+
+		listMatchingAmmo = AmunicjaDao.getNazwaAmmo();
+		obsListAmmoName = FXCollections.observableList(listMatchingAmmo);
+
+		matchingAmmo.setItems(obsListAmmoName);
+
+		lstMatchingKaliberAmmo = AmunicjaDao.getNazwaPoKalibrzeAmmo(bron.getKaliber());
+		obslstMatchingKaliberAmmo = FXCollections.observableList(lstMatchingKaliberAmmo);
+
+		matchingCal.setItems(obslstMatchingKaliberAmmo);
+
+
+
 
 		GridPane gp = new GridPane();
 		gp.setVgap(10);
