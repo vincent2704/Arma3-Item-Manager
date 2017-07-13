@@ -9,9 +9,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-
 public class Konfiguracja implements Serializable {
 
 	// nazwa pliku konfiguracyjnego
@@ -26,18 +23,6 @@ public class Konfiguracja implements Serializable {
 
 	public Konfiguracja() {
 
-	}
-
-	public static Alert brakKonfiguracji() {
-		Alert alBrakKonfiguracji = new Alert(AlertType.WARNING);
-		alBrakKonfiguracji.setTitle("Brak konfiguracji");
-		alBrakKonfiguracji.setHeaderText("Uwaga");
-		alBrakKonfiguracji
-				.setContentText("Program nie był w stanie znaleźć pliku konfiguracyjnego.\nUstaw teraz konfigurację dla"
-						+ " odczytu bazy danych.");
-		alBrakKonfiguracji.showAndWait();
-
-		return alBrakKonfiguracji;
 	}
 
 	public static Konfiguracja readConfig() {

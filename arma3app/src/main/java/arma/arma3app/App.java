@@ -1,6 +1,7 @@
 package arma.arma3app;
 
 import java.io.File;
+import java.util.Locale;
 
 import arma.itemdb.DatabaseHandler;
 import arma.misc.Konfiguracja;
@@ -49,7 +50,7 @@ public class App extends Application
 		Konfiguracja k = Konfiguracja.readConfig();
 
 		if (k == null) {
-			Konfiguracja.brakKonfiguracji();
+			brakKonfiguracji();
 			moveToKonfiguracjaOkno();
 		}
 
@@ -110,12 +111,21 @@ public class App extends Application
 		alertCon.showAndWait();
 	}
 
+	public static void brakKonfiguracji() {
+		Alert alBrakKonfiguracji = new Alert(AlertType.WARNING);
+		alBrakKonfiguracji.setTitle("Brak konfiguracji");
+		alBrakKonfiguracji.setHeaderText("Uwaga");
+		alBrakKonfiguracji
+				.setContentText(Lang.t("alert.conf.msg"));
+		alBrakKonfiguracji.showAndWait();
+	}
+
 	public static void main( String[] args )
 	{
+		Lang.init(new Locale("pl", "PL"));
 		launch(args);
 
 		File config = null;
-
 		try {
 			config = new File("app.conf");
 			config.createNewFile();
