@@ -28,8 +28,8 @@ public class BronieOkno extends BorderPane {
 
 	App app;
 
-	private ObservableList<Bronie> listObBronie;
-	private List<Bronie> listaBronie;
+	private static ObservableList<Bronie> listObBronie;
+	private static List<Bronie> listaBronie;
 
 	private TextField rodzaj;
 
@@ -51,7 +51,7 @@ public class BronieOkno extends BorderPane {
 		setTop(gridPane());
 	}
 
-	public void updateTable() {
+	public static void updateTable() {
 		listaBronie = BronieDao.getListaBroni();
 		if (listObBronie != null) {
 			listObBronie.clear();
@@ -110,6 +110,7 @@ public class BronieOkno extends BorderPane {
 		gp.add(btnDodaj, 3, 1);
 		btnDodaj.setOnAction(event -> {
 			putInDatabaseBron();
+			updateTable();
 		});
 
 		kaliber.setOnKeyPressed(event -> {

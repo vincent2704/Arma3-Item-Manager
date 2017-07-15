@@ -37,6 +37,7 @@ public class WiecejOpcjiOkno extends Dialog<Boolean> {
 		setupButtons();
 
 
+
 		Label lbLista = new Label("Przypisane magazynki:");
 
 		matchingAmmo = new ListView<>();
@@ -50,7 +51,7 @@ public class WiecejOpcjiOkno extends Dialog<Boolean> {
 		GridPane gp = new GridPane();
 		gp.setVgap(10);
 		gp.setHgap(10);
-		gp.setGridLinesVisible(true);
+		// gp.setGridLinesVisible(true);
 		gp.add(lbLista, 0, 1);
 		gp.add(matchingAmmo, 0, 2);
 
@@ -59,6 +60,7 @@ public class WiecejOpcjiOkno extends Dialog<Boolean> {
 		gpCal.setVgap(10);
 		Label lbMatchingCal = new Label("Wybierz magazynek do przypisania");
 		matchingCal = new ComboBox<>();
+		matchingCal.setId("combobox");
 		matchingCal.setPrefWidth(187);
 		List<Amunicja> lstMatchingKaliberAmmo = AmunicjaDao.getAmunicjaPoKalibrzeAmmo(bron.getKaliber());
 		ObservableList<Amunicja> obslstComboBox = FXCollections.observableList(lstMatchingKaliberAmmo);
@@ -90,6 +92,7 @@ public class WiecejOpcjiOkno extends Dialog<Boolean> {
 			if (event.getCode() == KeyCode.ENTER) {
 				bron.setIlosc(Integer.parseInt(tfCustomIlosc.getText()));
 				BronieDao.updateBronie(bron);
+				BronieOkno.updateTable();
 				customIlosc = true;
 
 			}
@@ -127,6 +130,7 @@ public class WiecejOpcjiOkno extends Dialog<Boolean> {
 
 		gp.add(gpCal, 1, 2);
 		getDialogPane().setContent(gp);
+		getDialogPane().getStylesheets().add(getClass().getResource("/wiecejOpcjiOknoCSS.css").toExternalForm());
 
 	}
 
@@ -151,6 +155,7 @@ public class WiecejOpcjiOkno extends Dialog<Boolean> {
 			if (ammoZmienionePow || customIlosc) {
 				BronieDao.updateBronie(bron);
 			}
+			BronieOkno.updateTable();
 		}
 	}
 

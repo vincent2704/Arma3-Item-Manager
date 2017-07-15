@@ -1,0 +1,57 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.dialog-pane{
+	-fx-background-image:url("projekt_tytan1.png") 
+}
+
+.button{
+	-fx-background-color: black;
+	-fx-text-fill: white;
+}
+
+.label{
+	-fx-font-weight: bold;
+}
+
+.combo-box{
+	-fx-background-color: black;
+	-fx-text-fill: white;
+}
+
+.list-view{
+	-fx-background-color: rgba(0,0,0, 0.5);
+}
+
+.list-view .list-cell:odd{
+	-fx-background-color: rgba(0,0,0, 0.5);	
+	-fx-text-fill: white;
+}
+
+.list-view .list-cell:selected{
+	-fx-background-color: #BDB76B;
+	-fx-border-color: rgba(169,169,169, 0.5);
+	-fx-font-weight: bold;
+	
+}
+/* parzyste wiersze */
+.list-view .list-cell:even{
+	-fx-background-color: rgba(189, 183, 107, 0.5);
+	-fx-text-fill: white;
+}
+
+#combobox .list-cell{
+	-fx-background-color: black;
+	-fx-text-fill: white;
+}
+
+#combobox .list-cell:hover{
+	-fx-background-color: white;
+	-fx-text-fill: black;
+}
+
+.text-field{
+	-fx-background-color: #BDB76B;
+}
+
+.text-field:focused{
+	 	-fx-background-color:  	#B8860B;
+}

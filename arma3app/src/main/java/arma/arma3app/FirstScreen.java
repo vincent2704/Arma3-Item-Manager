@@ -42,7 +42,7 @@ public class FirstScreen extends GridPane {
 		btnKonf.setOnAction(event -> {
 			app.moveToKonfiguracjaOkno();
 		});
-		add(btnKonf, 0, 3);
+		add(btnKonf, 0, 2);
 	}
 
 	private void applyEffects(Button btn, String txt) {

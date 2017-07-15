@@ -55,13 +55,6 @@ public class BronieDao implements Serializable {
 
 	}
 
-	public static int getMagazynki(Bronie bron) {
-		EntityManager em = DatabaseHandler.getEntityManager();
-		String qString = "SELECT";
-
-		return 1;
-	}
-
 
 	public static void updateBronie(Bronie bronie) {
 		EntityManager em = DatabaseHandler.getEntityManager();

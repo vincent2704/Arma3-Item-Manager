@@ -6,6 +6,7 @@ import arma.arma3app.BronieOkno;
 import arma.arma3app.WiecejOpcjiOkno;
 import arma.itemdao.BronieDao;
 import arma.itemdb.Bronie;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -14,6 +15,8 @@ import javafx.util.Callback;
 
 public class BronieCellFactory implements Callback<TableColumn<Bronie, String>, TableCell<Bronie, String>> {
 	private BronieOkno bronieOkno;
+	WiecejOpcjiOkno wiecejOpcjiOkno;
+	Scene scWiecejOpcji;
 
 	public BronieCellFactory(BronieOkno bronieOkno) {
 		this.bronieOkno = bronieOkno;
@@ -62,6 +65,7 @@ public class BronieCellFactory implements Callback<TableColumn<Bronie, String>, 
 					btnWiecej.setOnAction(event -> {
 						Bronie bronie = getTableView().getItems().get(getIndex());
 						Optional<Boolean> changed = new WiecejOpcjiOkno(bronie).showAndWait();
+
 						changed.ifPresent(c -> {
 							if (c) {
 								bronieOkno.updateTable();
