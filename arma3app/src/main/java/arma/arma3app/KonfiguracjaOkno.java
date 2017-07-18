@@ -99,8 +99,10 @@ public class KonfiguracjaOkno extends BorderPane {
 			Konfiguracja.saveConfig(c);
 			if (DatabaseHandler.createConnection(c)) {
 				App.connSuccess();
+				app.enableButtons(true);
 			} else {
 				App.alertConnection();
+				app.enableButtons(false);
 			}
 
 		});

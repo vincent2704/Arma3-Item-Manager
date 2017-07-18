@@ -14,6 +14,8 @@ import javafx.scene.text.TextAlignment;
 public class FirstScreen extends GridPane {
 
 	App app;
+	private Button btnBronie;
+	private Button btnAmunicja;
 
 	public FirstScreen(App app) {
 		this.app = app;
@@ -23,14 +25,14 @@ public class FirstScreen extends GridPane {
 
 		setAlignment(Pos.CENTER);
 
-		Button btnBronie = new Button();
+		btnBronie = new Button();
 		applyEffects(btnBronie, "Baza broni");
 		btnBronie.setOnAction(event -> {
 			app.moveToBronieOkno();
 		});
 		add(btnBronie, 0, 0);
 
-		Button btnAmunicja = new Button();
+		btnAmunicja = new Button();
 		applyEffects(btnAmunicja, "Baza amunicji");
 		btnAmunicja.setOnAction(event -> {
 			app.moveToAmunicjaOkno();
@@ -83,6 +85,12 @@ public class FirstScreen extends GridPane {
 			btn.setEffect(shadowbtn);
 			txBronie.setEffect(null);
 		});
+	}
+
+	public void enableButtons(boolean enable) {
+		btnBronie.setDisable(!enable);
+		btnAmunicja.setDisable(!enable);
+
 	}
 
 }

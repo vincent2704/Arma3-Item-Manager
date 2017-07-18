@@ -57,11 +57,18 @@ public class App extends Application
 		else {
 			if (DatabaseHandler.createConnection(k)) {
 				connSuccess();
+				enableButtons(true);
 			} else {
 				alertConnection();
+				enableButtons(false);
+				moveToKonfiguracjaOkno();
 			}
 
 		}
+	}
+
+	public void enableButtons(boolean enable) {
+		firstScreen.enableButtons(enable);
 	}
 
     public void moveToBronieOkno() {
