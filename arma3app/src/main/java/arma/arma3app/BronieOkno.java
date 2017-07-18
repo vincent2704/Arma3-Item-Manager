@@ -22,14 +22,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 
 public class BronieOkno extends BorderPane {
 
-	App app;
+	private App app;
 
-	private static ObservableList<Bronie> listObBronie;
-	private static List<Bronie> listaBronie;
+	private ObservableList<Bronie> listObBronie;
 
 	private TextField rodzaj;
 
@@ -39,24 +39,17 @@ public class BronieOkno extends BorderPane {
 
 	public BronieOkno(App app) {
 		this.app = app;
-		updateTable();
 
-		Button btnBack = new Button("Powrót");
-		btnBack.setOnAction(event -> {
-			app.moveToGlowny();
-		});
-
-		setBottom(btnBack);
+		setBottom(hbox());
 		setCenter(createTabelaBronie());
 		setTop(gridPane());
+		updateTable();
 	}
 
-	public static void updateTable() {
-		listaBronie = BronieDao.getListaBroni();
-		if (listObBronie != null) {
+	public void updateTable() {
+		List<Bronie> listaBronie = BronieDao.getListaBroni();
 			listObBronie.clear();
 			listObBronie.addAll(listaBronie);
-		}
 	}
 
 	public void duplicateBron() {
@@ -106,18 +99,18 @@ public class BronieOkno extends BorderPane {
 			kaliber.clear();
 		});
 
+		kaliber.setOnKeyPressed(event -> {
+			if (event.getCode() == KeyCode.ENTER) {
+				putInDatabaseBron();
+				updateTable();
+			}
+		});
+
 		Button btnDodaj = new Button("Dodaj");
 		gp.add(btnDodaj, 3, 1);
 		btnDodaj.setOnAction(event -> {
 			putInDatabaseBron();
 			updateTable();
-		});
-
-		kaliber.setOnKeyPressed(event -> {
-			if (event.getCode() == KeyCode.ENTER) {
-
-
-			}
 		});
 
 		return gp;
@@ -165,24 +158,39 @@ public class BronieOkno extends BorderPane {
 		TableColumn<Bronie, Integer> colMagazynki = new TableColumn<Bronie, Integer>("Amunicja");
 		colMagazynki.setCellValueFactory(new PropertyValueFactory<>("ilosc_magazynkow"));
 		colMagazynki.setCellFactory(createMagazynkiCellFactory());
+		colMagazynki.setMaxWidth(70);
+		colMagazynki.setMinWidth(70);
 
 		// kolumna implementujaca guziki do edycji poszczegolnego wiersza w bazie
 		TableColumn colOperacje = new TableColumn();
-		colOperacje.setPrefWidth(206);
-		colOperacje.setMaxWidth(206);
-		colOperacje.setMinWidth(206);
+		colOperacje.setPrefWidth(136);
+		colOperacje.setMaxWidth(136);
+		colOperacje.setMinWidth(136);
 
 		Callback<TableColumn<Bronie, String>, TableCell<Bronie, String>> colGuzikiFactory = new BronieCellFactory(this);
 		colOperacje.setCellFactory(colGuzikiFactory);
 		colOperacje.setCellValueFactory(new PropertyValueFactory<>("guziki"));
 
 		tabela.getColumns().addAll(colNazwa, colIlosc, colMagazynki, colKaliber, colOperacje);
+		tabela.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-		listObBronie = FXCollections.observableArrayList(listaBronie);
+		listObBronie = FXCollections.observableArrayList();
 		tabela.setItems(listObBronie);
 
 		return tabela;
 
+	}
+
+	private HBox hbox() {
+		HBox hbox = new HBox();
+		Button btnBack = new Button("Powrót");
+		btnBack.setOnAction(event -> {
+			app.moveToGlowny();
+		});
+		hbox.getChildren().add(btnBack);
+		hbox.setPadding(new Insets(5, 5, 5, 5));
+
+		return hbox;
 	}
 
 	private Callback<TableColumn<Bronie, Integer>, TableCell<Bronie, Integer>> createMagazynkiCellFactory() {
@@ -202,10 +210,11 @@ public class BronieOkno extends BorderPane {
 						} else {
 						Bronie bronie = getTableView().getItems().get(getIndex());
 						suma = 0;
+							if (bronie.getAmunicja() != null) {
 						bronie.getAmunicja().forEach(ammo -> {
 							suma += ammo.getIlosc();
 						});
-
+							}
 						setText(suma + "");
 						}
 					}

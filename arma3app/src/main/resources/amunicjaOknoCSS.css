@@ -29,6 +29,11 @@
 	-fx-text-fill: white;
 }
 
+.button:hover{
+	-fx-background-color: white;
+	-fx-text-fill:black;
+}
+
 .scroll-bar{
 	-fx-background-color: transparent;
 }

@@ -71,6 +71,7 @@ public class App extends Application
 		scBronieOkno.getStylesheets().add(getClass().getResource("/bronieOknoCSS.css").toExternalForm());
 		}
 		stage.setScene(scBronieOkno);
+		bronieOkno.updateTable();
 	}
 
 	public void moveToAmunicjaOkno() {

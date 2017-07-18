@@ -12,6 +12,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
@@ -90,10 +92,13 @@ public class WiecejOpcjiOkno extends Dialog<Boolean> {
 
 		tfCustomIlosc.setOnKeyPressed(event -> {
 			if (event.getCode() == KeyCode.ENTER) {
+				try {
 				bron.setIlosc(Integer.parseInt(tfCustomIlosc.getText()));
-				BronieDao.updateBronie(bron);
-				BronieOkno.updateTable();
 				customIlosc = true;
+				zmieniono = true;
+				} catch (NumberFormatException exc) {
+					formatExc();
+				}
 
 			}
 		});
@@ -134,6 +139,14 @@ public class WiecejOpcjiOkno extends Dialog<Boolean> {
 
 	}
 
+	private static void formatExc() {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Zły format zapisu!");
+		alert.setHeaderText("Zły format zapisu!");
+		alert.setContentText("W polu \"Ilość\" muszą znajdować się jedynie liczby naturalne!");
+		alert.showAndWait();
+	}
+
 	private void setupButtons() {
 		ButtonType btnZapisz = new ButtonType("Zapisz", ButtonData.OK_DONE);
 		ButtonType btnAnuluj = new ButtonType("Anuluj", ButtonData.CANCEL_CLOSE);
@@ -155,7 +168,6 @@ public class WiecejOpcjiOkno extends Dialog<Boolean> {
 			if (ammoZmienionePow || customIlosc) {
 				BronieDao.updateBronie(bron);
 			}
-			BronieOkno.updateTable();
 		}
 	}
 

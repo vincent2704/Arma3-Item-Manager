@@ -97,7 +97,11 @@ public class KonfiguracjaOkno extends BorderPane {
 			c.setStrHaslo(dbHaslo);
 
 			Konfiguracja.saveConfig(c);
-			DatabaseHandler.createConnection(c);
+			if (DatabaseHandler.createConnection(c)) {
+				App.connSuccess();
+			} else {
+				App.alertConnection();
+			}
 
 		});
 

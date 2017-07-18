@@ -8,6 +8,11 @@
 	-fx-text-fill: white;
 }
 
+.button:hover{
+	-fx-background-color: white;
+	-fx-text-fill:black;
+}
+
 .label{
 	-fx-font-weight: bold;
 }

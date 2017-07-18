@@ -12,3 +12,8 @@
 	-fx-background-color: black;
 	-fx-text-fill: white;
 }
+
+.button:hover{
+	-fx-background-color: white;
+	-fx-text-fill:black;
+}
