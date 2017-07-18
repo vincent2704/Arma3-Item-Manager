@@ -30,7 +30,7 @@ public class BronieCellFactory implements Callback<TableColumn<Bronie, String>, 
 			Button btnPlus1 = new Button("+1");
 			Button btnMinus1 = new Button("-1");
 			Button btnWiecej = new Button("Więcej");
-			HBox fpOperacje = new HBox(10, btnPlus1, btnMinus1, btnWiecej);
+			HBox fpOperacje = new HBox(5, btnPlus1, btnMinus1, btnWiecej);
 
 			// override metody updateItem pozwala na customowy wyglad komorek. tutaj jest to uzyte w celu
 			// wprowadzania buttonow jako elementow kazdego wpisu

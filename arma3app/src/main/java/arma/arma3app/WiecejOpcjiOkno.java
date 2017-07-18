@@ -1,6 +1,7 @@
 package arma.arma3app;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -44,6 +45,10 @@ public class WiecejOpcjiOkno extends Dialog<Boolean> {
 
 		matchingAmmo = new ListView<>();
 		Set<Amunicja> listMatchingAmmo = bron.getAmunicja();
+		if (listMatchingAmmo == null) {
+			listMatchingAmmo = new HashSet<Amunicja>();
+			bron.setAmunicja(listMatchingAmmo);
+		}
 		ObservableList<Amunicja> obsListMatchingAmmo = FXCollections
 				.observableList(new ArrayList<Amunicja>(listMatchingAmmo));
 
